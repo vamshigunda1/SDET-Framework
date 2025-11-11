@@ -11,7 +11,7 @@ import org.testng.Assert;
  */
 public class LoginTest extends BaseTest {
 
-    @Test(description = "Verify successful login with valid credentials")
+    @Test(groups = {"ui"}, description = "Verify successful login with valid credentials")
     public void testSuccessfulLogin() {
         driver.navigate().to(ConfigReader.getApplicationUrl());
         LoginPage loginPage = new LoginPage(driver);
@@ -23,7 +23,7 @@ public class LoginTest extends BaseTest {
         logger.info("Login test passed");
     }
 
-    @Test(description = "Verify login with invalid password shows error")
+    @Test(groups = {"ui"}, description = "Verify login with invalid password shows error")
     public void testLoginWithInvalidPassword() {
         driver.navigate().to(ConfigReader.getApplicationUrl());
         LoginPage loginPage = new LoginPage(driver);
@@ -36,7 +36,7 @@ public class LoginTest extends BaseTest {
         logger.info("Invalid password test passed");
     }
 
-    @Test(description = "Verify login page elements are visible")
+    @Test(groups = {"ui"}, description = "Verify login page elements are visible")
     public void testLoginPageElementsVisible() {
         driver.navigate().to(ConfigReader.getApplicationUrl());
         LoginPage loginPage = new LoginPage(driver);

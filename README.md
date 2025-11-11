@@ -180,6 +180,43 @@ docker run sdet-framework:latest
 
 ---
 
+## 🩹 Self-Healing Locators (Healenium)
+
+The framework integrates Healenium to automatically heal broken Selenium locators when the UI changes.
+
+### How it works
+When an element's original locator fails, Healenium analyzes historical selector data and suggests the closest match, allowing tests to continue while logging the healed locator.
+
+### Enable / disable
+Controlled via `heal.enabled` in `src/main/resources/config.properties` or system property override:
+
+```bash
+mvn clean test -Dheal.enabled=false
+```
+
+### Configuration
+`src/main/resources/healenium.properties` contains backend connection and tuning values.
+
+### Start Healenium backend (Docker)
+
+```bash
+docker compose up -d
+```
+
+This starts Postgres + Healenium backend on port `7878`.
+
+### Run tests with self-healing
+
+```bash
+mvn clean test -Dbrowser=chrome
+```
+
+### Notes
+- If the backend isn’t running, healing still wraps the driver but can’t persist history.
+- Disable healing in pipelines where strict failure is preferred: `-Dheal.enabled=false`.
+
+---
+
 ## 🔧 Configuration
 
 Edit `src/main/resources/config.properties`:

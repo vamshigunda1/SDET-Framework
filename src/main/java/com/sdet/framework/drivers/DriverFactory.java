@@ -1,6 +1,7 @@
 package com.sdet.framework.drivers;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import com.sdet.framework.utils.ConfigReader;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -12,6 +13,7 @@ import org.openqa.selenium.safari.SafariDriver;
 import org.openqa.selenium.safari.SafariOptions;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import com.epam.healenium.SelfHealingDriver;
 
 /**
  * DriverFactory class to manage WebDriver instances with ThreadLocal
@@ -44,9 +46,13 @@ public class DriverFactory {
             }
         }
 
-        driver.set(webDriver);
-        logger.info("WebDriver initialized for: " + browserName);
-        return webDriver;
+    // Optionally wrap with Healenium SelfHealingDriver based on config
+    boolean healEnabled = Boolean.parseBoolean(ConfigReader.getProperty("heal.enabled", "true"));
+    WebDriver finalDriver = healEnabled ? SelfHealingDriver.create(webDriver) : webDriver;
+
+    driver.set(finalDriver);
+    logger.info((healEnabled ? "SelfHealingDriver" : "WebDriver") + " initialized for: " + browserName);
+    return finalDriver;
     }
 
     /**

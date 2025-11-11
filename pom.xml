@@ -31,6 +31,13 @@
             <version>${selenium.version}</version>
         </dependency>
 
+        <!-- Healenium (Self-healing locators for Selenium) -->
+        <dependency>
+            <groupId>com.epam.healenium</groupId>
+            <artifactId>healenium-web</artifactId>
+            <version>3.5.3</version>
+        </dependency>
+
         <!-- Cucumber -->
         <dependency>
             <groupId>io.cucumber</groupId>

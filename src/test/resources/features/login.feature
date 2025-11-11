@@ -1,3 +1,4 @@
+@uitest
 Feature: Login Functionality
   As a user
   I want to login with valid credentials

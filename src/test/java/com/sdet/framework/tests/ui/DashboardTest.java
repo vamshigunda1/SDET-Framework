@@ -12,7 +12,8 @@ import org.testng.Assert;
  */
 public class DashboardTest extends BaseTest {
 
-    @Test(description = "Verify dashboard page after login")
+
+    @Test(groups = {"ui"}, description = "Verify dashboard page after login")
     public void testDashboardPageDisplay() {
         driver.navigate().to(ConfigReader.getApplicationUrl());
         LoginPage loginPage = new LoginPage(driver);
@@ -23,7 +24,7 @@ public class DashboardTest extends BaseTest {
         logger.info("Dashboard page verified");
     }
 
-    @Test(description = "Verify logout functionality")
+    @Test(groups = {"ui"}, description = "Verify logout functionality")
     public void testLogoutFunctionality() {
         driver.navigate().to(ConfigReader.getApplicationUrl());
         LoginPage loginPage = new LoginPage(driver);

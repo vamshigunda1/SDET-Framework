@@ -17,7 +17,7 @@ import io.cucumber.testng.CucumberOptions;
         },
         monochrome = true,
         dryRun = false,
-        tags = "@smoke or @regression"
+        tags = "@uitest"
 )
 public class TestRunner extends AbstractTestNGCucumberTests {
 }
