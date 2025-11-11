@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/" debug="false">
+
+    <appender name="console" class="org.apache.logging.log4j.core.appender.ConsoleAppender">
+        <layout class="org.apache.logging.log4j.core.layout.PatternLayout">
+            <param name="ConversionPattern" value="%d{HH:mm:ss.SSS} [%t] %-5p %c{1} - %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="file" class="org.apache.logging.log4j.core.appender.FileAppender">
+        <param name="File" value="target/logs/automation.log"/>
+        <layout class="org.apache.logging.log4j.core.layout.PatternLayout">
+            <param name="ConversionPattern" value="%d{HH:mm:ss.SSS} [%t] %-5p %c{1} - %m%n"/>
+        </layout>
+    </appender>
+
+    <root>
+        <level value="INFO"/>
+        <appender-ref ref="console"/>
+        <appender-ref ref="file"/>
+    </root>
+
+    <logger name="com.sdet.framework" additivity="false">
+        <level value="DEBUG"/>
+        <appender-ref ref="console"/>
+        <appender-ref ref="file"/>
+    </logger>
+
+</log4j:configuration>

@@ -1,50 +1,50 @@
 # 🧩 SDET-Framework
 
-> A scalable, agentic-AI assisted Test Automation Framework built in **Java** using **Selenium**, **Cucumber**, and **RestAssured**, integrated with **Docker** and **Harness CI/CD** for intelligent, end-to-end automation.
+> A scalable, production-grade Test Automation Framework built in **Java** using **Selenium 4**, **Cucumber**, **TestNG**, and **RestAssured**, integrated with **Docker** for intelligent, end-to-end automation.
 
 ---
 
 ## 🏗️ Overview
 
-`SDET-Framework` demonstrates how to design, build, and scale a production-grade automation architecture ready for enterprise and MAANG-level SDET interviews.
-It combines **modern test engineering practices**, **self-healing test execution (Healenium)**, and **agentic AI-assisted automation development** to deliver a maintainable, high-performance QA ecosystem.
+`SDET-Framework` demonstrates how to design, build, and scale a production-grade automation architecture combining modern test engineering practices, BDD patterns, and comprehensive test coverage for both UI and API layers.
 
 ---
 
 ## 🧠 Key Features
 
-* ✅ Modular framework with `Base`, `Hooks`, `Utils`, and `Drivers` packages
-* 🧩 **UI Automation:** Selenium 4 + ThreadLocal WebDriver
-* 🌐 **API Automation:** RestAssured with JSON/XML validation
-* ⚙️ **BDD Support:** Cucumber integration with dynamic data injection
-* 🧰 **Agentic AI Integration:** LLM-assisted test generation with human validation
-* 🧾 **Custom HTML Reports:** Captures endpoint, request, and response for every service
-* 🐳 **Docker Support:** Containerized test execution
-* 🔄 **Harness CI/CD Integration:** Automated pipeline for build + regression
-* 🧬 **Self-Healing:** Healenium support for auto-recovery of flaky locators
+* ✅ **Modular Architecture** - Organized packages for drivers, utils, core, pages, api, step definitions
+* 🧩 **UI Automation** - Selenium 4 with Page Object Model and ThreadLocal WebDriver
+* 🌐 **API Automation** - RestAssured with request/response logging and assertions
+* ⚙️ **BDD Support** - Cucumber 7 with Gherkin feature files and TestNG integration
+* 🧾 **Comprehensive Reporting** - Allure Reports with detailed execution logs
+* 🐳 **Docker Support** - Containerized test execution
+* 📊 **Log4j Integration** - Detailed logging for debugging and auditing
+* 🔒 **Thread-Safe** - ThreadLocal WebDriver for parallel execution
 
 ---
 
-## 🏗️ Architecture
+## 🏗️ Project Structure
 
 ```text
 SDET-Framework
-│
-├── src
-│   ├── main/java/com/sdet/framework
+├── src/
+│   ├── main/java/com/sdet/framework/
 │   │   ├── drivers/DriverFactory.java
-│   │   ├── utils/ConfigReader.java
-│   │   └── core/BaseTest.java
-│   └── test/java/com/sdet/tests
-│       ├── ui/SampleUiTest.java
-│       ├── api/ApiTests.java
-│       └── bdd/
-│           ├── features/
-│           └── stepdefinitions/
+│   │   ├── utils/ConfigReader.java & WebDriverUtils.java
+│   │   ├── core/BaseTest.java
+│   │   ├── pages/LoginPage.java & DashboardPage.java
+│   │   └── api/APIClient.java
+│   ├── main/resources/
+│   │   ├── config.properties
+│   │   └── log4j2.xml
+│   └── test/java/com/sdet/framework/
+│       ├── runners/TestRunner.java
+│       ├── stepdefinitions/
+│       └── tests/ui/ & api/
 │
-├── Dockerfile
-├── harness-pipeline.yml
 ├── pom.xml
+├── testng.xml
+├── Dockerfile
 └── README.md
 ```
 
@@ -52,67 +52,104 @@ SDET-Framework
 
 ## 🧩 Tech Stack
 
-| Layer            | Tools                            |
-| ---------------- | -------------------------------- |
-| Language         | Java 17                          |
-| Build            | Maven                            |
-| UI Automation    | Selenium 4                       |
-| API Automation   | RestAssured                      |
-| BDD              | Cucumber + TestNG                |
-| Reporting        | Custom HTML / Allure / Extent    |
-| CI/CD            | Harness                          |
-| Containerization | Docker                           |
-| Healing          | Healenium                        |
-| Agentic-AI       | GitHub Copilot Chat / Aide Agent |
+| Component        | Technology | Version |
+| ---------------- | ---------- | ------- |
+| Language         | Java       | 21      |
+| Build Tool       | Maven      | 3.8+    |
+| UI Automation    | Selenium   | 4.15.0  |
+| API Automation   | RestAssured| 5.3.2   |
+| BDD Framework    | Cucumber   | 7.15.0  |
+| Test Runner      | TestNG     | 7.8.1   |
+| Logging          | Log4j2     | 2.21.1  |
+| Reporting        | Allure     | 2.25.0  |
+| Containerization | Docker     | Latest  |
 
 ---
 
-## ⚡ Badges
+## 📋 Prerequisites
 
-![Java](https://img.shields.io/badge/Java-17-blue)
-![Build](https://img.shields.io/badge/Build-Passing-brightgreen)
-![Docker](https://img.shields.io/badge/Docker-Ready-0db7ed)
-![Harness](https://img.shields.io/badge/CI-Harness-orange)
-![License](https://img.shields.io/badge/License-MIT-yellow)
+* **Java 21** or higher
+* **Maven 3.8.0** or higher
+* **Git**
+* **Docker** (optional)
 
 ---
 
-## 🧪 Getting Started
+## 🚀 Quick Start
 
 ```bash
-# Clone repo
-git clone https://github.com/<your-username>/SDET-Framework.git
+git clone https://github.com/vamshigunda1/SDET-Framework.git
 cd SDET-Framework
-
-# Run tests locally
+mvn clean install
 mvn clean test
-
-# Run in Docker
-docker build -t sdet-framework .
-docker run sdet-framework
 ```
 
 ---
 
-## 📈 Future Enhancements
+## 📝 Running Tests
 
-* Add Playwright-based UI layer
-* Integrate BrowserStack / AWS Device Farm
-* Extend Healenium recovery reporting
-* Enable parallel BDD execution in Docker grid
+### Run all tests
+```bash
+mvn clean test
+```
+
+### Run specific test class
+```bash
+mvn clean test -Dtest=LoginTest
+```
+
+### Run Cucumber tests with tags
+```bash
+mvn clean test -Dcucumber.filter.tags="@smoke"
+```
+
+### View Allure reports
+```bash
+mvn allure:serve
+```
 
 ---
 
-## 👨‍💻 Author
+## 🐳 Docker
 
-**Vamshi Krishna Gunda**
-Automation Engineer | SDET | MAANG Aspirant
-🚀 Passionate about building intelligent, self-healing automation systems
-📫 [Professional Email]
-🔗 [LinkedIn Profile]
+```bash
+docker build -t sdet-framework:latest .
+docker run sdet-framework:latest
+```
+
+---
+
+## 🔧 Configuration
+
+Edit `src/main/resources/config.properties`:
+
+```properties
+browser=chrome
+app.url=https://www.saucedemo.com
+api.base.url=https://api.example.com
+implicit.wait=10
+explicit.wait=15
+```
+
+---
+
+## 📚 Resources
+
+- [Selenium Docs](https://www.selenium.dev/)
+- [Cucumber Docs](https://cucumber.io/)
+- [RestAssured Docs](https://rest-assured.io/)
+- [TestNG Docs](https://testng.org/)
 
 ---
 
 ## 📜 License
 
-This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
+MIT License - see LICENSE file for details
+
+---
+
+## 👨‍💻 Author
+
+**Vamshi Krishna Gunda**  
+SDET | QA Automation Engineer  
+🚀 Building scalable automation frameworks

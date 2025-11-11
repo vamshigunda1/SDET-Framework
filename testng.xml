@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="SDET Framework Test Suite" parallel="tests" thread-count="2">
+
+    <!-- Cucumber Tests -->
+    <test name="Cucumber BDD Tests">
+        <classes>
+            <class name="com.sdet.framework.runners.TestRunner"/>
+        </classes>
+    </test>
+
+    <!-- UI Tests -->
+    <test name="UI Tests">
+        <classes>
+            <class name="com.sdet.framework.tests.ui.LoginTest"/>
+            <class name="com.sdet.framework.tests.ui.DashboardTest"/>
+        </classes>
+    </test>
+
+    <!-- API Tests -->
+    <test name="API Tests">
+        <classes>
+            <class name="com.sdet.framework.tests.api.UserAPITest"/>
+            <class name="com.sdet.framework.tests.api.ProductAPITest"/>
+        </classes>
+    </test>
+
+</suite>
