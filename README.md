@@ -20,6 +20,9 @@
 * 🐳 **Docker Support** - Containerized test execution
 * 📊 **Log4j Integration** - Detailed logging for debugging and auditing
 * 🔒 **Thread-Safe** - ThreadLocal WebDriver for parallel execution
+* 🎯 **Programmatic Test Runner** - Run tests via Java main method with system properties
+* 🌐 **Multi-Browser Support** - Chrome, Safari, Firefox, Edge with WebDriverManager
+* ⚡ **Command-line Flexibility** - Override browser, groups, and suite via `-D` properties
 
 ---
 
@@ -29,22 +32,27 @@
 SDET-Framework
 ├── src/
 │   ├── main/java/com/sdet/framework/
-│   │   ├── drivers/DriverFactory.java
-│   │   ├── utils/ConfigReader.java & WebDriverUtils.java
-│   │   ├── core/BaseTest.java
-│   │   ├── pages/LoginPage.java & DashboardPage.java
-│   │   └── api/APIClient.java
+│   │   ├── drivers/DriverFactory.java       # Multi-browser WebDriver factory
+│   │   ├── utils/ConfigReader.java          # Property-based configuration
+│   │   ├── utils/WebDriverUtils.java        # Reusable WebDriver utilities
+│   │   ├── core/BaseTest.java               # TestNG base class
+│   │   ├── pages/LoginPage.java             # Page Object Models
+│   │   ├── pages/DashboardPage.java
+│   │   └── api/APIClient.java               # RestAssured API wrapper
 │   ├── main/resources/
-│   │   ├── config.properties
-│   │   └── log4j2.xml
+│   │   ├── config.properties                # Browser, URL, wait configs
+│   │   └── log4j2.xml                       # Logging configuration
 │   └── test/java/com/sdet/framework/
-│       ├── runners/TestRunner.java
-│       ├── stepdefinitions/
-│       └── tests/ui/ & api/
+│       ├── runners/
+│       │   ├── TestRunner.java              # Cucumber TestNG runner
+│       │   └── ProgrammaticTestNG.java      # Java main runner with properties
+│       ├── stepdefinitions/                 # Cucumber step definitions
+│       └── tests/ui/ & api/                 # TestNG test classes
 │
-├── pom.xml
-├── testng.xml
-├── Dockerfile
+├── .vscode/launch.json                      # VS Code debug configurations
+├── pom.xml                                  # Maven dependencies
+├── testng.xml                               # TestNG suite configuration
+├── Dockerfile                               # Container image (Java 21 + Maven)
 └── README.md
 ```
 
@@ -56,10 +64,11 @@ SDET-Framework
 | ---------------- | --------------------------- | ------- |
 | Language         | Java                        | 21      |
 | Build Tool       | Maven                       | 3.8+    |
-| UI Automation    | Selenium WebDriver          | 4.15.0  |
+| UI Automation    | Selenium WebDriver          | 4.26.0  |
 | API Automation   | RestAssured                 | 5.4.0   |
 | BDD Framework    | Cucumber                    | 7.15.0  |
 | Test Runner      | TestNG                      | 7.8.0   |
+| Driver Manager   | WebDriverManager            | 5.6.3   |
 | Logging          | Log4j2                      | 2.21.1  |
 | Reporting        | Allure                      | 2.25.0  |
 | Containerization | Docker                      | Latest  |
@@ -88,20 +97,72 @@ mvn clean test
 
 ## 📝 Running Tests
 
-### Run all tests
+### Standard Maven Commands
+
+#### Run all tests
 ```bash
 mvn clean test
 ```
 
-### Run specific test class
+#### Run specific test class
 ```bash
 mvn clean test -Dtest=LoginTest
 ```
 
-### Run Cucumber tests with tags
+#### Run with specific browser
+```bash
+mvn clean test -Dbrowser=chrome
+mvn clean test -Dbrowser=safari
+mvn clean test -Dbrowser=edge
+```
+
+#### Exclude API tests
+```bash
+mvn clean test -DexcludedGroups=api
+```
+
+#### Run Cucumber tests with tags
 ```bash
 mvn clean test -Dcucumber.filter.tags="@smoke"
 ```
+
+### Programmatic TestNG Runner
+
+Run tests via Java main method with full control over browser, suite, and groups:
+
+#### Using Maven exec plugin
+```bash
+# Run with Chrome (default)
+mvn exec:java -Dexec.mainClass=com.sdet.framework.runners.ProgrammaticTestNG -Dexec.classpathScope=test
+
+# Run with Safari
+mvn exec:java -Dexec.mainClass=com.sdet.framework.runners.ProgrammaticTestNG -Dexec.classpathScope=test -Dbrowser=safari
+
+# Run with Chrome, exclude API tests
+mvn exec:java -Dexec.mainClass=com.sdet.framework.runners.ProgrammaticTestNG -Dexec.classpathScope=test -Dbrowser=chrome -DexcludedGroups=api
+
+# Run smoke tests only
+mvn exec:java -Dexec.mainClass=com.sdet.framework.runners.ProgrammaticTestNG -Dexec.classpathScope=test -Dgroups=smoke
+
+# Use custom suite file
+mvn exec:java -Dexec.mainClass=com.sdet.framework.runners.ProgrammaticTestNG -Dexec.classpathScope=test -DsuiteFile=custom-suite.xml
+```
+
+#### Using VS Code (Recommended)
+
+Press **F5** and select from available configurations:
+- **Run Tests (Chrome)** - All UI tests with Chrome
+- **Run Tests (Safari)** - All UI tests with Safari  
+- **Run Smoke Tests (Chrome)** - Only smoke group
+
+#### Programmatic Runner Properties
+
+| Property | Options | Default | Description |
+|----------|---------|---------|-------------|
+| `-Dbrowser` | chrome, safari, edge, firefox | chrome | Browser to run tests |
+| `-DsuiteFile` | path to XML | testng.xml | TestNG suite file |
+| `-Dgroups` | comma-separated | none | Include test groups |
+| `-DexcludedGroups` | comma-separated | none | Exclude test groups |
 
 ### View Allure reports
 ```bash
@@ -124,12 +185,40 @@ docker run sdet-framework:latest
 Edit `src/main/resources/config.properties`:
 
 ```properties
-browser=chrome
+# Browser Configuration
+browser=chrome                          # Default: chrome | Options: chrome, safari, edge, firefox
+headless.mode=false
+
+# Application URLs
 app.url=https://www.saucedemo.com
 api.base.url=https://api.example.com
+
+# Wait Times (seconds)
 implicit.wait=10
 explicit.wait=15
+
+# Logging
+logging.level=INFO
+
+# Reporting
+report.path=target/allure-results
 ```
+
+### Multi-Browser Support
+
+The framework automatically manages browser drivers using **WebDriverManager**:
+
+- **Chrome** - WebDriverManager downloads ChromeDriver automatically
+- **Safari** - Uses macOS built-in SafariDriver (enable in Safari Settings → Advanced → Developer)
+- **Edge** - WebDriverManager downloads EdgeDriver automatically
+- **Firefox** - WebDriverManager downloads GeckoDriver automatically
+
+Override browser via command line:
+```bash
+mvn clean test -Dbrowser=safari
+```
+
+Or in VS Code debug configurations (`.vscode/launch.json`).
 
 ---
 

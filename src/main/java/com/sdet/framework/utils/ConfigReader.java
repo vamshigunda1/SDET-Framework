@@ -54,8 +54,16 @@ public class ConfigReader {
 
     /**
      * Get browser name
+     * Supports command line override via -Dbrowser=safari
      */
     public static String getBrowser() {
+        // First check for system property (command line -Dbrowser=safari)
+        String browserFromCmdLine = System.getProperty("browser");
+        if (browserFromCmdLine != null && !browserFromCmdLine.trim().isEmpty()) {
+            logger.info("Using browser from command line: " + browserFromCmdLine);
+            return browserFromCmdLine.trim();
+        }
+        // Fall back to config.properties
         return getProperty("browser", "chrome");
     }
 

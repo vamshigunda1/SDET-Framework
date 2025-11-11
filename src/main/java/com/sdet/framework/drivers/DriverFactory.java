@@ -8,6 +8,8 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
+import org.openqa.selenium.safari.SafariDriver;
+import org.openqa.selenium.safari.SafariOptions;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -35,6 +37,7 @@ public class DriverFactory {
             case "chrome" -> webDriver = initializeChrome();
             case "firefox" -> webDriver = initializeFirefox();
             case "edge" -> webDriver = initializeEdge();
+            case "safari" -> webDriver = initializeSafari();
             default -> {
                 logger.error("Browser not supported: " + browserName);
                 throw new IllegalArgumentException("Browser not supported: " + browserName);
@@ -73,10 +76,37 @@ public class DriverFactory {
      * Initialize Edge browser
      */
     private static WebDriver initializeEdge() {
-        WebDriverManager.edgedriver().setup();
+        try {
+            WebDriverManager.edgedriver()
+                .clearDriverCache()
+                .clearResolutionCache()
+                .timeout(120)
+                .setup();
+        } catch (Exception e) {
+            logger.warn("WebDriverManager failed to download EdgeDriver, attempting fallback: " + e.getMessage());
+            try {
+                // Try with different configuration
+                WebDriverManager.edgedriver()
+                    .avoidFallback()
+                    .cachePath("~/.cache/selenium")
+                    .setup();
+            } catch (Exception ex) {
+                logger.error("EdgeDriver setup failed. Attempting to use system-installed driver.", ex);
+                // Let Selenium try to find msedgedriver in PATH
+            }
+        }
         EdgeOptions options = new EdgeOptions();
         options.addArguments("--start-maximized");
         return new EdgeDriver(options);
+    }
+
+    /**
+     * Initialize Safari browser
+     */
+    private static WebDriver initializeSafari() {
+        SafariOptions options = new SafariOptions();
+        options.setAutomaticInspection(false);
+        return new SafariDriver(options);
     }
 
     /**
