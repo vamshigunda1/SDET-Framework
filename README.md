@@ -52,17 +52,17 @@ SDET-Framework
 
 ## 🧩 Tech Stack
 
-| Component        | Technology | Version |
-| ---------------- | ---------- | ------- |
-| Language         | Java       | 21      |
-| Build Tool       | Maven      | 3.8+    |
-| UI Automation    | Selenium   | 4.15.0  |
-| API Automation   | RestAssured| 5.3.2   |
-| BDD Framework    | Cucumber   | 7.15.0  |
-| Test Runner      | TestNG     | 7.8.1   |
-| Logging          | Log4j2     | 2.21.1  |
-| Reporting        | Allure     | 2.25.0  |
-| Containerization | Docker     | Latest  |
+| Component        | Technology                  | Version |
+| ---------------- | --------------------------- | ------- |
+| Language         | Java                        | 21      |
+| Build Tool       | Maven                       | 3.8+    |
+| UI Automation    | Selenium WebDriver          | 4.15.0  |
+| API Automation   | RestAssured                 | 5.4.0   |
+| BDD Framework    | Cucumber                    | 7.15.0  |
+| Test Runner      | TestNG                      | 7.8.0   |
+| Logging          | Log4j2                      | 2.21.1  |
+| Reporting        | Allure                      | 2.25.0  |
+| Containerization | Docker                      | Latest  |
 
 ---
 
