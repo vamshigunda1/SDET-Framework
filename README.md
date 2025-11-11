@@ -94,17 +94,6 @@ docker run sdet-framework
 
 ---
 
-## 🌟 Agentic-AI Workflow Example
-
-> This framework supports **agentic automation development** — use tools like GitHub Copilot Chat or Aide Agent to generate step definitions, test data templates, or helper methods.
-> Every AI-assisted code addition includes human-reviewed commits labeled as:
->
-> ```
-> chore(ai): generated base test utility (reviewed)
-> ```
-
----
-
 ## 📈 Future Enhancements
 
 * Add Playwright-based UI layer
