@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Healenium Demo Suite" parallel="false">
+
+    <!-- Healenium Demo Test -->
+    <test name="Healenium Self-Healing Demo">
+        <groups>
+            <run>
+                <include name="healenium-demo"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="com.sdet.framework.tests.ui.HealeniumDemoTest"/>
+        </classes>
+    </test>
+
+</suite>

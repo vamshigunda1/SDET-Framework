@@ -211,8 +211,23 @@ This starts Postgres + Healenium backend on port `7878`.
 mvn clean test -Dbrowser=chrome
 ```
 
+### Run Healenium demo
+
+Run the demo suite to see self-healing in action:
+
+```bash
+# With healing enabled (default)
+mvn clean test -DsuiteXmlFile=testng-healenium.xml -Dbrowser=chrome
+
+# With healing disabled (second test should fail)
+mvn clean test -DsuiteXmlFile=testng-healenium.xml -Dbrowser=chrome -Dheal.enabled=false
+```
+
+Or use VS Code launch configs:
+- Press **F5** → "Healenium Demo (Healing ON)" or "Healenium Demo (Healing OFF)"
+
 ### Notes
-- If the backend isn’t running, healing still wraps the driver but can’t persist history.
+- If the backend isn't running, healing still wraps the driver but can't persist history.
 - Disable healing in pipelines where strict failure is preferred: `-Dheal.enabled=false`.
 
 ---
